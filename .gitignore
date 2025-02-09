@@ -1,0 +1,16 @@
+# Ignorar el entorno virtual
+env/
+
+# Ignorar archivos de caché y compilados
+__pycache__/
+*.pyc
+*.pyo
+
+# Ignorar checkpoints de Jupyter
+.ipynb_checkpoints/
+
+# Ignorar datos grandes o sensibles
+*.csv
+*.h5
+*.pkl
+.env
