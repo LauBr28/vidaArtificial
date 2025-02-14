@@ -5,7 +5,6 @@ import torch
 
 app = FastAPI()
 
-# Cargar los modelos
 sentiment_analyzer = pipeline("sentiment-analysis", model="pysentimiento/robertuito-sentiment-analysis")
 zero_shot_classifier = pipeline("zero-shot-classification", model="facebook/bart-large-mnli")
 text_generator = pipeline("text-generation", model="DeepESP/gpt2-spanish")
@@ -42,14 +41,19 @@ async def text_generation(input: TextInput):
     return {"result": result}
 
 @app.post("/fill-mask/")
-async def fill_mask(input: TextInput):
+async def fill_mask_endpoint(input: TextInput):
     result = fill_mask(input.text)
     return {"result": result}
 
 @app.post("/ner/")
-async def named_entity_recognition(input: TextInput):
+async def named_entity_recognition_endpoint(input: TextInput):
     result = ner(input.text)
-    return {"result": result}
+    parsed_result = []
+    for entity in result:
+        entity["score"] = float(entity["score"])
+        parsed_result.append(entity)
+
+    return {"result": parsed_result}
 
 @app.post("/question-answering/")
 async def question_answering(input: QaInput):
