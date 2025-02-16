@@ -1,9 +1,14 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
+from fastapi.responses import HTMLResponse
+from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 from transformers import pipeline
 import torch
 
 app = FastAPI()
+
+app.mount("/static", StaticFiles(directory="static"), name="static")
+
 
 sentiment_analyzer = pipeline("sentiment-analysis", model="pysentimiento/robertuito-sentiment-analysis")
 zero_shot_classifier = pipeline("zero-shot-classification", model="facebook/bart-large-mnli")
@@ -24,6 +29,11 @@ class ZeroShotInput(BaseModel):
 class QaInput(BaseModel):
     question: str
     context: str
+
+@app.get("/", response_class=HTMLResponse)
+async def read_root():
+    with open("templates/index.html", "r") as file:
+        return HTMLResponse(content=file.read())
 
 @app.post("/sentiment-analysis/")
 async def sentiment_analysis(input: TextInput):
