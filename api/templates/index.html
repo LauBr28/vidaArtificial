@@ -3,19 +3,110 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Interfaz de Modelos de Texto</title>
+    <title>Modelos de Texto</title>
     <link rel="stylesheet" href="/static/styles.css">
 </head>
 <body>
-    <h1>Interfaz de Modelos de Texto</h1>
+    <h1>Modelos de Texto</h1>
     <div class="container">
-        <form id="sentimentForm">
+        <!-- Tarjetas de modelos -->
+        <div class="card" onclick="showForm('sentiment')">
             <h2>Análisis de Sentimiento</h2>
+        </div>
+        <div class="card" onclick="showForm('zero-shot')">
+            <h2>Clasificación Zero-Shot</h2>
+        </div>
+        <div class="card" onclick="showForm('text-generation')">
+            <h2>Generación de Texto</h2>
+        </div>
+        <div class="card" onclick="showForm('fill-mask')">
+            <h2>Fill Mask</h2>
+        </div>
+        <div class="card" onclick="showForm('ner')">
+            <h2>Reconocimiento de Entidades</h2>
+        </div>
+        <div class="card" onclick="showForm('qa')">
+            <h2>Preguntas y Respuestas</h2>
+        </div>
+        <div class="card" onclick="showForm('summarization')">
+            <h2>Resumen</h2>
+        </div>
+        <div class="card" onclick="showForm('translation')">
+            <h2>Traducción</h2>
+        </div>
+    </div>
+
+    <!-- Formularios -->
+    <div id="forms" class="forms-container">
+        <!-- Análisis de Sentimiento -->
+        <form id="sentiment-form" class="form hidden" onsubmit="submitForm(event, '/sentiment-analysis/')">
+            <h2>Análisis de Sentimiento</h2>
+            <p class="example">Ejemplo: "Me encanta este producto, es increíble."</p>
             <textarea name="text" placeholder="Ingrese el texto aquí"></textarea>
             <button type="submit">Analizar</button>
         </form>
-        <div id="result"></div>
+
+        <!-- Clasificación Zero-Shot -->
+        <form id="zero-shot-form" class="form hidden" onsubmit="submitForm(event, '/zero-shot-classification/')">
+            <h2>Clasificación Zero-Shot</h2>
+            <p class="example">Ejemplo: Texto: "El cambio climático es un problema grave.", Etiquetas: "medio ambiente, política, tecnología"</p>
+            <textarea name="text" placeholder="Ingrese el texto aquí"></textarea>
+            <input type="text" name="candidate_labels" placeholder="Etiquetas candidatas (separadas por comas)">
+            <button type="submit">Clasificar</button>
+        </form>
+
+        <!-- Generación de Texto -->
+        <form id="text-generation-form" class="form hidden" onsubmit="submitForm(event, '/text-generation/')">
+            <h2>Generación de Texto</h2>
+            <p class="example">Ejemplo: "En un lugar de la Mancha..."</p>
+            <textarea name="text" placeholder="Ingrese el texto aquí"></textarea>
+            <button type="submit">Generar</button>
+        </form>
+
+        <!-- Fill Mask -->
+        <form id="fill-mask-form" class="form hidden" onsubmit="submitForm(event, '/fill-mask/')">
+            <h2>Fill Mask</h2>
+            <p class="example">Ejemplo: "El cielo está [MASK]."</p>
+            <textarea name="text" placeholder="Ingrese el texto aquí"></textarea>
+            <button type="submit">Completar</button>
+        </form>
+
+        <!-- Reconocimiento de Entidades -->
+        <form id="ner-form" class="form hidden" onsubmit="submitForm(event, '/ner/')">
+            <h2>Reconocimiento de Entidades</h2>
+            <p class="example">Ejemplo: "Apple está planeando abrir una nueva tienda en Madrid."</p>
+            <textarea name="text" placeholder="Ingrese el texto aquí"></textarea>
+            <button type="submit">Reconocer</button>
+        </form>
+
+        <!-- Preguntas y Respuestas -->
+        <form id="qa-form" class="form hidden" onsubmit="submitForm(event, '/question-answering/')">
+            <h2>Preguntas y Respuestas</h2>
+            <p class="example">Ejemplo: Contexto: "El cambio climático es un problema global.", Pregunta: "¿Qué es el cambio climático?"</p>
+            <textarea name="context" placeholder="Ingrese el contexto aquí"></textarea>
+            <textarea name="question" placeholder="Ingrese la pregunta aquí"></textarea>
+            <button type="submit">Responder</button>
+        </form>
+
+        <!-- Resumen -->
+        <form id="summarization-form" class="form hidden" onsubmit="submitForm(event, '/summarization/')">
+            <h2>Resumen</h2>
+            <p class="example">Ejemplo: "El cambio climático es un problema global que afecta a todos los países..."</p>
+            <textarea name="text" placeholder="Ingrese el texto aquí"></textarea>
+            <button type="submit">Resumir</button>
+        </form>
+
+        <!-- Traducción -->
+        <form id="translation-form" class="form hidden" onsubmit="submitForm(event, '/translation/')">
+            <h2>Traducción</h2>
+            <p class="example">Ejemplo: "Hola, ¿cómo estás?"</p>
+            <textarea name="text" placeholder="Ingrese el texto aquí"></textarea>
+            <button type="submit">Traducir</button>
+        </form>
     </div>
+
+    <!-- Resultados -->
+    <div id="result" class="result"></div>
 
     <script src="/static/script.js"></script>
 </body>
